@@ -14,20 +14,13 @@ questions about the CLA process, please refer to our [FAQ](https://cla.vmware.co
 
 This is a rough outline of what a contributor's workflow looks like:
 
+- Fork the repository.
 - Create a topic branch from where you want to base your work
 - Make commits of logical units
-- Make sure your commit messages are in the proper format (see below)
+- Run tests with `tox` locally
 - Push your changes to a topic branch in your fork of the repository
 - Submit a pull request
 
-Example:
-
-``` shell
-git remote add upstream https://github.com/vmware/loginsight-export.git
-git checkout -b my-new-feature master
-git commit -a
-git push origin my-new-feature
-```
 
 ### Staying In Sync With Upstream
 
@@ -42,42 +35,24 @@ git push --force-with-lease origin my-new-feature
 
 ### Updating pull requests
 
-If your PR fails to pass CI or needs changes based on code review, you'll most likely want to squash these changes into
-existing commits.
+If your pull request fails to pass continuous integration or needs changes based on code review,
+push additional commits into the branch and update the pull request.
 
-If your pull request contains a single commit or your changes are related to the most recent commit, you can simply
-amend the commit.
+Avoid squashing or amending commits that have already been pushed. Never force-push.
 
-``` shell
-git add .
-git commit --amend
-git push --force-with-lease origin my-new-feature
-```
-
-If you need to squash changes into an earlier commit, you can use:
-
-``` shell
-git add .
-git commit --fixup <commit>
-git rebase -i --autosquash master
-git push --force-with-lease origin my-new-feature
-```
-
-Be sure to add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a
-notification when you git push.
+If yup update a pull request and are ready for re-review, add a comment.
 
 ### Code Style
+
+pytest checks for pep8 and pyflakes complaince as part of continuous integration.
 
 ### Formatting Commit Messages
 
 We follow the conventions on [How to Write a Git Commit Message](http://chris.beams.io/posts/git-commit/).
 
+Keep explainations of _what_ changed to a single sentence. `git` already does a very good job of that. Spend a few more sentences justifying _the reason_ for the change.
+
 Be sure to include any related GitHub issue references in the commit message.  See
 [GFM syntax](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) for referencing issues
 and commits.
 
-## Reporting Bugs and Creating Issues
-
-When opening a new issue, try to roughly follow the commit message format conventions above.
-
-## Repository Structure
