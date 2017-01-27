@@ -4,13 +4,15 @@ import os
 
 
 class InconsistentFile(OSError):
+    """A file whose size is not consistent with expectations, or which is not parsable."""
     def __bool__(self):
         return False
+
     def __str__(self):
         return "{0} {s.filename!r}: {s.strerror}".format(self.__class__.__name__, s=self)
 
-class ExportBinToFile(object):
 
+class ExportBinToFile(object):
     def __init__(self, root_query, bin, output_directory, output_format, connection):
         self.root_query = root_query
         self.bin = bin

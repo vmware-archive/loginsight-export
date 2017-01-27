@@ -63,7 +63,7 @@ class Credentials(requests.auth.AuthBase):
             raise Unauthorized("Cannot authenticate without username/password")
         logger.info("Attempting to authenticate as {0}".format(self.username))
 
-        authdict = {"username": self.username, "password": self.password, "authMethod": self.provider, '_eventName':'loginAjax'}
+        authdict = {"username": self.username, "password": self.password, "authMethod": self.provider, '_eventName': 'loginAjax'}
         if authdict['authMethod'] == "Local":
             authdict['authMethod'] = "DEFAULT"  # UI refers to "Local" accounts as from the "DEFAULT" provider.
 
@@ -110,7 +110,7 @@ class Credentials(requests.auth.AuthBase):
 
         logger.debug("Not authenticated (got status {r.status_code} @ {r.request.url})".format(r=r))
         r.content  # Drain previous response body, if any
-        #r.close()
+        # r.close()
         r.raw.release_conn()
 
         self.sessionId = self.get_session(r, **kwargs)
@@ -216,7 +216,6 @@ class Connection(object):
 
         logger.debug("Created {0}".format(self))
 
-
     @classmethod
     def copy_connection(cls, connection):
         return cls(hostname=connection._hostname,
@@ -227,18 +226,21 @@ class Connection(object):
                    existing_session=connection._requestsession)
 
     def _call(self, method, url, data=None, json=None, params=None, sendauthorization=True, stream=False):
-        r = self._requestsession.request(method=method,
-                                         url=self._apiroot + url,
-                                         data=data,
-                                         json=json,
-                                         verify=self._verify,
-                                         auth=self._authprovider if sendauthorization else None,
-                                         params=params,
-                                         stream=stream,
-                                         allow_redirects=False,
-                                         headers={'X-Requested-With': 'XMLHttpRequest',
-                                                  'User-Agent': default_user_agent()}
-                                        )
+        r = self._requestsession.request(
+            method=method,
+            url=self._apiroot + url,
+            data=data,
+            json=json,
+            verify=self._verify,
+            auth=self._authprovider if sendauthorization else None,
+            params=params,
+            stream=stream,
+            allow_redirects=False,
+            headers={
+             'X-Requested-With': 'XMLHttpRequest',
+             'User-Agent': default_user_agent()
+            }
+        )
         try:
             payload = r.json()
         except:
@@ -348,7 +350,6 @@ class query(object):
 
         self.uidriver.log("Exporter starting PIQL discover.")
         logger.warning("Starting query with cancelToken %s" % cancelToken)
-
 
         r = self.uidriver.get(self.url, params={"paramsHelper.cancelToken": cancelToken})
         response = r.json()

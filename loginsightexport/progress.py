@@ -38,7 +38,7 @@ class ProgressRange(object):
 
         filledStart = int(round(self.columns * percent_start))
         filledEndin = int(round(self.columns * percent_endin))
-        percent = sum([filledStart,filledEndin]) / 2
+        percent = sum([filledStart, filledEndin]) / 2
 
         if not self.logger.isEnabledFor(logging.WARNING):
             return
@@ -63,7 +63,8 @@ class ProgressRange(object):
 
         if not self.logger.isEnabledFor(logging.WARNING) or self.logger.isEnabledFor(logging.INFO):
             return
-        print()  # write and flush a newline at the end of the progress bar
+        sys.stdout.write("\n")  # write and flush a newline at the end of the progress bar
+        sys.stdout.flush()
         return
 
 
@@ -81,7 +82,6 @@ class ProgressBar(collections.Iterator):
         self.stats = collections.Counter()
         self.started_at = datetime.datetime.now()
         self.duration = 0
-
 
     def __enter__(self):
         return self
@@ -124,5 +124,5 @@ class ProgressBar(collections.Iterator):
             self.prelude = "Aborted "
         self.update(0)
         if not (self.quiet or self.log):
-            print()  # write and flush a newline at the end of the progress bar
-
+            sys.stdout.write("\n")  # write and flush a newline at the end of the progress bar
+            sys.stdout.flush()

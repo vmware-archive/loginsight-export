@@ -10,8 +10,8 @@ from urllib.parse import urlparse, parse_qs, urlencode
 logger = logging.getLogger(__name__)
 
 
-
 class SeenWarning(UserWarning):
+    """Raised when a @once function is called multiple times with the same arguments."""
     def __init__(self, function_name, args, kwargs):
         self.function_name = function_name
         self.args = args
@@ -79,7 +79,7 @@ class ExplorerUrlParse(object):
         token = int(time.time()) * 1000
 
         while token == self.lasttoken:
-            token+=1
+            token += 1
             logger.warning("getChartParamsHelper Token bump to {0} in {1}".format(token, id(self)))
         self.lasttoken = token
 
@@ -168,7 +168,6 @@ class ExplorerUrlParse(object):
             params.update(extraparams)
         return params
 
-
     def getExportChartHelper(self, extraparams={}, altstart=None, altend=None):
         """Serialize back to a requests-friendly params dict"""
         token = int(time.time()) * 1000
@@ -178,7 +177,6 @@ class ExplorerUrlParse(object):
         self.lasttoken = token
 
         params = {}
-
 
         for _ in self.existingChartQuery:
             if _ == 'extractedFields':
@@ -190,7 +188,6 @@ class ExplorerUrlParse(object):
 
             if self.existingChartQuery[_]:
                 s = self.existingChartQuery[_]
-
 
                 if isinstance(s, dict):
                     # params['paramsHelper.%s' % _] = json.dumps(s)
@@ -231,8 +228,8 @@ class ExplorerUrlParse(object):
                     logger.debug("Inserted blank %s = ''" % (insertedkey))
 
         params.update({
-            'export':'true',
-            'exportHelper.exportFormat':'JSON',
+            'export': 'true',
+            'exportHelper.exportFormat': 'JSON',
             'exportHelper.exportToken': token,
             'paramsHelper.clientNowMillis': token,
             'downloadToken': token,
@@ -249,7 +246,6 @@ class ExplorerUrlParse(object):
 
         return params
 
-
     @property
     def start(self):
         return int(self.getExportChartHelper()['paramsHelper.startTimeMillis'])
@@ -260,16 +256,19 @@ class ExplorerUrlParse(object):
 
     @property
     def messagesurl(self):
-        query = urlencode(self.getChartParamsHelper(extraparams={'search':'true',
-            'paramsHelper.clientNowMillis': str(self.currentTimeMillis())}))
+        query = urlencode(self.getChartParamsHelper(extraparams={
+            'search': 'true',
+            'paramsHelper.clientNowMillis': str(self.currentTimeMillis())
+        }))
         return '/messages?' + query
 
     @property
     def chartingurl(self):
-        query = urlencode(self.getChartParamsHelper(extraparams={'generateMainChart':'true',
-            'paramsHelper.clientNowMillis': str(self.currentTimeMillis())}))
+        query = urlencode(self.getChartParamsHelper(extraparams={
+            'generateMainChart': 'true',
+            'paramsHelper.clientNowMillis': str(self.currentTimeMillis())
+        }))
         return '/logcharting?' + query
-
 
     @once
     def messagesurl_export(self, altstart=None, altend=None, outputformat=None):

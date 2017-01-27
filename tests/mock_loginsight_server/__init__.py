@@ -26,8 +26,6 @@ class MockedConnection(Connection):
         super(MockedConnection, self).__init__(*args, **kwargs)
 
         # Mount the requests-mock-adapter
-        #session = requests.Session()
-
         adapter = LogInsightMockAdapter()
         self._requestsession.mount('https://', adapter)
 

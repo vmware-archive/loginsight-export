@@ -1,8 +1,4 @@
-from urllib.parse import parse_qs
-from requests.utils import urlparse
-
 from loginsightexport.uidriver import AggregateQuery
-
 
 
 def test_extracted_fields_export_chart():

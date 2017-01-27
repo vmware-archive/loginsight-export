@@ -26,7 +26,7 @@ class MockedCsrfMixin(object):
         assert request.headers['X-Requested-With'] == 'XMLHttpRequest'
         context.headers[CSRFHEADER] = "secret"
         context.cookies.set(CSRFCOOKIE, 'secret')
-        return json.dumps({'succ':True})
+        return json.dumps({'succ': True})
 
     @requiresauthentication
     def session_current(self, request, context, session_id, user_id):

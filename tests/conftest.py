@@ -22,13 +22,6 @@ warnings.filterwarnings("ignore", category=requests.packages.urllib3.exceptions.
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-#ch = logging.StreamHandler(sys.stdout)
-#formatter = logging.Formatter(u'%(asctime)s %(name)s %(levelname)s: %(message)s')
-#ch.setFormatter(formatter)
-#logger.addHandler(ch)
-
-
-
 
 socket.setdefaulttimeout(1)
 ConnectionContainer = namedtuple("Connections", ["clazz", "hostname", "goodcredentials", "verify"])
@@ -66,7 +59,6 @@ def pytest_generate_tests(metafunc):
         credentialled_connections['none'].append(c.clazz(c.hostname, auth=None, verify=c.verify))
         credentialled_connections['fake'].append(c.clazz(c.hostname, auth=Credentials("fake", "fake", "fake"), verify=c.verify))
 
-
     if 'ui' in metafunc.fixturenames:
         metafunc.parametrize(
             'ui',
@@ -79,34 +71,6 @@ def pytest_generate_tests(metafunc):
             credentialled_connections['good'],
             ids=identifiers_for_test_parameters)
 
+
 def identifiers_for_test_parameters(val):
     return str(val).replace(".", "_")
-
-
-"""
-@pytest.fixture
-def ui():
-    from loginsightexport.uidriver import Credentials, Connection
-    try:
-        from tests.CREDENTIALS import hostname, username, provider, password
-    except ImportError:
-        pytest.skip(msg="Require a CREDENTIALS.py for integration tests")
-
-    session = requests.Session()
-    auth = Credentials(username, password, provider, reuse_session=session)
-    return Connection(hostname, port=443, verify=False, auth=auth, existing_session=session)
-"""
-
-"""
-@pytest.fixture
-def wrongcredentials():
-    from loginsightexport.uidriver import Credentials, Connection
-    try:
-        from tests.CREDENTIALS import hostname, username, provider, wrongpassword
-    except ImportError:
-        pytest.skip(msg="Require a CREDENTIALS.py for integration tests")
-
-    session = requests.Session()
-    auth = Credentials(username, wrongpassword, provider, reuse_session=session)
-    return Connection(hostname, port=443, verify=False, auth=auth, existing_session=session)
-"""

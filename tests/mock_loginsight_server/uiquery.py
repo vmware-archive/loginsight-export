@@ -18,7 +18,7 @@ mockserverlogger = logging.getLogger("LogInsightMockAdapter")
 
 
 class Database(object):
-
+    """Generate a corupus of log messages 'event nnnnn'"""
     def __init__(self, start=1483154000000, end=1483568999999):
         middle = (end+start)/2
         self.data = []
@@ -27,12 +27,10 @@ class Database(object):
             if i > middle:
                 self.data.append((i+1, "event.1 %d" % (i - 1483154000000 - 1)))
 
-
     def results_in_range(self, start, end):
         for i, msg in self.data:
             if start <= i <= end:
                 yield (i, msg)
-
 
     def query_chart(self, start, end, buckets=3):
         round_down_start = int(round(start/10000)*10000)
@@ -56,11 +54,11 @@ class Database(object):
         for k, g in groupby(iterable, key=key_fn):
             result_bins[k]['aggregationValues'][0] += len(list(g))
 
-
         return [v for k, v in result_bins.items()]
 
     def query_events(self, start, end):
         pass
+
 
 class MockedUIQueryMixin(requests_mock.Adapter):
     def __init__(self, **kwargs):
@@ -90,8 +88,6 @@ class MockedUIQueryMixin(requests_mock.Adapter):
 
         assert 0 <= start <= end
 
-
-
         rows = [
                 {'groupByValues': [{'isTime': True, 'val': 1483235882100, 'endVal': 1483235882199}], 'aggregationValues': [8653]},
                 {'groupByValues': [{'isTime': True, 'val': 1483235882000, 'endVal': 1483235882099}], 'aggregationValues': [10939]},
@@ -115,4 +111,3 @@ class MockedUIQueryMixin(requests_mock.Adapter):
             'rows': rows,
             'aggregationHeaders': [{'func': 'COUNT', 'funcDisplayName': 'Count'}]
         })
-

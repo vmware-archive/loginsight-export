@@ -64,9 +64,6 @@ def arguments():
 
     loggroup = parser.add_argument_group("Display")
     loggroup.add_argument("-q", "--quiet", action="store_const", const=1, default=0, help="Silence progressbar.")
-    #loggroup.add_argument("--quiet", action="count", dest="quiet", default=0, help="Silence warnings")
-    #loggroup.add_argument("-q", action="count", dest="quiet", default=0, help=argparse.SUPPRESS)
-    #loggroup.add_argument("--debug", action="store_const", const=5, default=0, dest="loglevel", help="Equal to -vvv, ")
     loggroup.add_argument("-v", "--verbose", action="count", default=0, dest="loglevel", help="Replace progressbar with logs. -vv writes PII (urls & queries) to stdout")
     loggroup.add_argument("--noprompt", action="store_false", default=True, dest="prompt", help="Don't prompt for anything interactively")
 
@@ -134,7 +131,6 @@ def arguments():
             "Password required, either interactively or in ~/.netrc:\n"
             " * In a .netrc file: machine li.example.com login Charlie password SuperSecr3t! account Local"
         )
-
 
     if not os.path.isdir(args.output):
         parser.error("{0} is not a directory".format(args.output))
@@ -255,16 +251,16 @@ def main():
             parser.error("There appears to be no data in this query & time-range. Aborting.")
 
         # Sanity check output directory for filename collsions
-        PREFIX="output."
+        PREFIX = "output."
         expected_files = [PREFIX + "%s" % b[0] for b in rendered_bins]
         extra_files = [f for f in os.listdir(args.output) if f.startswith(PREFIX) and f not in expected_files]
         if extra_files:
             parser.error(
                 "There are extra files in the output directory {output} which are not part of the desired output set {prefix}*. "
                 "Delete them or use a different output directory:\n{extra_files}".format(
-                    output = args.output,
-                    prefix = PREFIX,
-                    extra_files = " ".join(extra_files)
+                    output=args.output,
+                    prefix=PREFIX,
+                    extra_files=" ".join(extra_files)
                 ))
 
         stats = collections.Counter()

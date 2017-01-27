@@ -95,7 +95,7 @@ def patch_bins_at_boundaries(boundary_bin, bins):
 
 def split(bins, fetch_subset_fn, maximum=20000):
     for b in bins:
-        if b[2]>maximum:
+        if b[2] > maximum:
             logger.debug("This bin %s is larger than the maximum, split it apart" % str(b))
             newbins = fetch_subset_fn(b)
             if [b] == newbins:
@@ -115,7 +115,7 @@ def split(bins, fetch_subset_fn, maximum=20000):
 def asplit(bins, splitfn, maximum=20000):
     r = []
     for b in bins:
-        if b[2]>maximum:
+        if b[2] > maximum:
             logger.debug("This bin %s is larger than the maximum, split it apart" % str(b))
             newbins = splitfn(b, splitfn, maximum=maximum)
             if bins == newbins:

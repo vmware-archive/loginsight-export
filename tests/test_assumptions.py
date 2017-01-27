@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 def test_exception_in_context_manager_plain():
     ordering = []
 

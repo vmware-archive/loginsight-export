@@ -13,7 +13,7 @@ except (FileNotFoundError, KeyError):
     packageversion = "0.dev0"
 
 
-requires = ['requests']
+requires = ['requests', 'humanize']
 
 setup(
     name="loginsightexport",
@@ -25,7 +25,7 @@ setup(
     tests_require=requires + ["requests_mock", "pytest", "pytest-catchlog", "pytest-flakes", "pytest-pep8", "tox"],
     description='Log Insight Export',
     author_email='acastonguay@vmware.com',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     packages=find_packages(),
     platforms='any',
     classifiers=[
