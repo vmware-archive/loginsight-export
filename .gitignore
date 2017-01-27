@@ -1,0 +1,12 @@
+build
+dist
+export
+.cache
+.coverage
+.eggs
+.env
+.idea
+.tox
+*.egg-info
+__pycache__
+CREDENTIALS.py

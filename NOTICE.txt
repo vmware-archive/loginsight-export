@@ -1,4 +1,4 @@
-VMware loginsight-export 1
+VMware loginsight-export
 
 Copyright (c) 2017 VMware, Inc. All Rights Reserved. 
 
