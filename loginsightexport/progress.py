@@ -1,13 +1,19 @@
 import logging
 import sys
 import collections
-import warnings
 import datetime
-
+import time
 import humanize
+import warnings
+
+try:
+    current_time = time.monotonic
+except:
+    current_time = time.time  # Reasonable fallback
+    warnings.warn("Using non-monotonic timesource, durations should be taken with a grain of salt")
 
 
-class ProgressRange(object):
+class ProgressRange(collections.Iterator):
     logger = logging.getLogger(__name__)
 
     def __init__(self, bins=[(0, 0, 0)], prelude="Planning", suffix="requests", columns=100):
@@ -17,7 +23,7 @@ class ProgressRange(object):
         self.updates = 0
         self.start(bins)
         self.longest_line = 0
-        self.started_at = datetime.datetime.now()
+        self.started_at = current_time()
         self.duration = 0
 
     def start(self, bins):
@@ -29,7 +35,7 @@ class ProgressRange(object):
         return self
 
     def update(self, bins, increment=1):
-        self.duration = datetime.datetime.now() - self.started_at
+        self.duration = datetime.timedelta(seconds=current_time() - self.started_at)
         self.updates += increment
         start = min([x[0] for x in bins])
         endin = max([x[1] for x in bins])
@@ -47,7 +53,8 @@ class ProgressRange(object):
             return
 
         if filledStart == filledEndin:
-            filledEndin += 1
+            filledEndin = max(self.columns, filledEndin + 1)  # clamp
+
         bar = '-' * filledStart + '=' * (filledEndin - filledStart) + '-' * (self.columns - filledEndin)
         out = "\r{s.prelude} [{bar}] {percent:.1f}% {s.updates} {s.suffix} ({duration} elapsed)".format(bar=bar, s=self, percent=percent, duration=humanize.naturaldelta(self.duration))
 
@@ -59,7 +66,8 @@ class ProgressRange(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is not None:
             self.prelude = "Aborted "
-        self.update([(self._start, self._end, 0)], increment=0)  # TODO: BUG: This results in a progress bar at 50% full of ====
+        else:
+            self.update([(self._end, self._end, 0)], increment=0)  # TODO: BUG: This results in a progress bar at 50% full of ====
 
         if not self.logger.isEnabledFor(logging.WARNING) or self.logger.isEnabledFor(logging.INFO):
             return
@@ -80,7 +88,7 @@ class ProgressBar(collections.Iterator):
         self.quiet = quiet
         self.log = log
         self.stats = collections.Counter()
-        self.started_at = datetime.datetime.now()
+        self.started_at = current_time()
         self.duration = 0
 
     def __enter__(self):
@@ -90,12 +98,15 @@ class ProgressBar(collections.Iterator):
         return self
 
     def __next__(self):
-        _ = self._iterator.__next__()
+        #_ = self._iterator.__next__()
+        _ = next(self._iterator)
         self.update(1)
         return _
 
+    next = __next__
+
     def update(self, increment=1):
-        self.duration = datetime.datetime.now() - self.started_at
+        self.duration = datetime.timedelta(seconds=current_time() - self.started_at)
         self.current += increment
         try:
             percent = 100 * (self.current / float(self.total))

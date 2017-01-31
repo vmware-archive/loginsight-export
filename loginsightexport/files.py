@@ -3,6 +3,10 @@ import logging
 import os
 
 
+if 'FileNotFoundError' not in vars():
+    FileNotFoundError = IOError  # py27
+
+
 class InconsistentFile(OSError):
     """A file whose size is not consistent with expectations, or which is not parsable."""
     def __bool__(self):
@@ -28,7 +32,7 @@ class ExportBinToFile(object):
                 if self.output_format == 'JSON':
                     try:
                         self.body = json.load(f)
-                    except json.decoder.JSONDecodeError:
+                    except ValueError:
                         raise InconsistentFile(0, "Not valid JSON; size {0}".format(os.path.getsize(self.filename)), self.filename)
                     try:
                         if self.bin[2] != self.body['to']:

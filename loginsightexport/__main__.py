@@ -21,7 +21,7 @@ from loginsightexport.paramhelper import ExplorerUrlParse, SeenWarning
 from loginsightexport.progress import ProgressRange, ProgressBar
 from loginsightexport.shorturl import unfurl_short_url
 from loginsightexport.uidriver import Connection, Credentials, AggregateQuery, TechPreviewWarning
-from loginsightexport.files import ExportBinToFile, InconsistentFile
+from loginsightexport.files import ExportBinToFile, InconsistentFile, FileNotFoundError
 
 
 def arguments():

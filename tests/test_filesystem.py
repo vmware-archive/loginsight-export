@@ -1,13 +1,8 @@
-import pytest
-import warnings
-import requests_mock
 import os.path
 import json
 import pytest
-import logging
 
-
-from loginsightexport.files import ExportBinToFile, InconsistentFile
+from loginsightexport.files import ExportBinToFile, InconsistentFile, FileNotFoundError
 
 
 @pytest.fixture()
@@ -29,7 +24,7 @@ class TestExistingFileValidity(object):
     def test_not_json_file(self, caplog, tmpdir, root_bin):
         export = ExportBinToFile(root_query=None, bin=root_bin, output_directory=str(tmpdir), output_format='JSON', connection=None)
 
-        with open(export.filename, "x") as f:
+        with open(export.filename, "w") as f:
             f.write("notjson")
 
         with pytest.raises(InconsistentFile):
@@ -39,7 +34,7 @@ class TestExistingFileValidity(object):
     def test_missing_required_key_to(self, caplog, tmpdir, root_bin):
         export = ExportBinToFile(root_query=None, bin=root_bin, output_directory=str(tmpdir), output_format='JSON', connection=None)
 
-        with open(export.filename, "x") as f:
+        with open(export.filename, "w") as f:
             json.dump({"hasMoreResults": False}, fp=f)
 
         with pytest.raises(InconsistentFile):
@@ -49,7 +44,7 @@ class TestExistingFileValidity(object):
     def test_missing_required_key_hasMoreResults(self, caplog, tmpdir, root_bin):
         export = ExportBinToFile(root_query=None, bin=root_bin, output_directory=str(tmpdir), output_format='JSON', connection=None)
 
-        with open(export.filename, "x") as f:
+        with open(export.filename, "w") as f:
             json.dump({"to": root_bin[2]}, fp=f)
 
         with pytest.raises(InconsistentFile):
@@ -59,7 +54,7 @@ class TestExistingFileValidity(object):
     def test_hasMoreResults_True(self, caplog, tmpdir, root_bin):
         export = ExportBinToFile(root_query=None, bin=root_bin, output_directory=str(tmpdir), output_format='JSON', connection=None)
 
-        with open(export.filename, "x") as f:
+        with open(export.filename, "w") as f:
             json.dump({"hasMoreResults": True, "to": root_bin[2]}, fp=f)
 
         with pytest.raises(InconsistentFile):
@@ -69,7 +64,7 @@ class TestExistingFileValidity(object):
     def test_mismatched_quantity(self, caplog, tmpdir, root_bin):
         export = ExportBinToFile(root_query=None, bin=root_bin, output_directory=str(tmpdir), output_format='JSON', connection=None)
 
-        with open(export.filename, "x") as f:
+        with open(export.filename, "w") as f:
             json.dump({"hasMoreResults": True, "to": 0-root_bin[2]}, fp=f)
 
         with pytest.raises(InconsistentFile):

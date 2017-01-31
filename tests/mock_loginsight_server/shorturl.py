@@ -1,9 +1,8 @@
 import json
 import logging
-import time
 import re
 
-from .utils import RandomDict, requiresauthentication, User, Session, trailing_anything_pattern
+from .utils import requiresauthentication
 
 
 mockserverlogger = logging.getLogger("LogInsightMockAdapter")

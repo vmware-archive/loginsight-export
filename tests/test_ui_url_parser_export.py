@@ -1,6 +1,7 @@
-from urllib.parse import parse_qs
-from requests.utils import urlparse
+
 import pytest
+from loginsightexport.compat import parse_qs, urlunparse, urlparse, parse_qsl
+
 
 from loginsightexport.paramhelper import ExplorerUrlParse
 

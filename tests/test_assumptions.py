@@ -1,8 +1,11 @@
+import collections
+import pytest
+
 
 def test_exception_in_context_manager_plain():
     ordering = []
 
-    class Ctx(object):
+    class Ctx(collections.Iterator):
         def __init__(self, iterable):
             ordering.append("init")
             self._iterator = iter(iterable)
@@ -17,17 +20,22 @@ def test_exception_in_context_manager_plain():
 
         def __next__(self):
             ordering.append("next")
-            return self._iterator.__next__()
+            return next(self._iterator)
 
-        def __exit__(self, *args):
+        next = __next__
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            if exc_type is not None:
+                ordering.append("Exception")
             ordering.append("exit")
-            return True
+            return
 
-    with Ctx([1, 2, 3]) as c:
-        for num in c:
-            ordering.append("loop%d" % num)
-            if num == 2:
-                ordering.append('Exception')
-                raise Exception
+    with pytest.raises(Exception):
+        with Ctx([1, 2, 3]) as c:
+            for num in c:
+                ordering.append("loop%d" % num)
+                if num == 2:
+                    ordering.append('Exception')
+                    raise Exception
 
-    assert ordering == ['init', 'enter', 'iter', 'next', 'loop1', 'next', 'loop2', 'Exception', 'exit']
+    assert 'Exception' in ordering

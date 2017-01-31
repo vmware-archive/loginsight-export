@@ -16,7 +16,7 @@ Session = namedtuple("Session", field_names=["userId", "ttl", "created"])
 
 
 class RandomDict(dict):
-    """Subclass of `dict` that adds a list-like `append` method that generates a random UUID key"""
+    """Subclass of `dict` that adds a list-like `append` method that generates a unique UUID key"""
     def append(self, value):
         key = str(uuid.uuid4())
         while key in self:

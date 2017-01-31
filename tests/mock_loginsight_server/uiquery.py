@@ -1,15 +1,11 @@
 import requests_mock
-from collections import Counter
 import json
 import logging
 import re
-import pytest
-from itertools import zip_longest, groupby, count
-
+from itertools import groupby
 
 from .utils import RandomDict, requiresauthentication
 
-from loginsightexport.compat import parse_qs
 
 logcharting_url_matcher = re.compile('/logcharting?(.*)$')
 messages_url_matcher = re.compile('/messages?(.*)$')
@@ -18,7 +14,7 @@ mockserverlogger = logging.getLogger("LogInsightMockAdapter")
 
 
 class Database(object):
-    """Generate a corupus of log messages 'event nnnnn'"""
+    """Generate a corpus of log messages 'event nnnnn'"""
     def __init__(self, start=1483154000000, end=1483568999999):
         middle = (end+start)/2
         self.data = []
@@ -61,6 +57,7 @@ class Database(object):
 
 
 class MockedUIQueryMixin(requests_mock.Adapter):
+    # noinspection PyTypeChecker
     def __init__(self, **kwargs):
         super(MockedUIQueryMixin, self).__init__(**kwargs)
         self._case_sensitive = True
@@ -70,8 +67,8 @@ class MockedUIQueryMixin(requests_mock.Adapter):
                                                                                    'licenseKey': '4J2TK-XXXXX-XXXXX-XXXXX-XXXXX', 'infinite': True, 'count': 0, 'expiration': 0}})
 
         # License Keys
-        self.register_uri('GET', messages_url_matcher, status_code=200, text=self.callback_get_messages)
-        self.register_uri('GET', logcharting_url_matcher, status_code=200, text=self.callback_get_chart)
+        self.register_uri(method='GET', url=messages_url_matcher, status_code=200, text=self.callback_get_messages)
+        self.register_uri(method='GET', url=logcharting_url_matcher, status_code=200, text=self.callback_get_chart)
 
     @requiresauthentication
     def callback_get_messages(self, request, context, session_id, user_id):

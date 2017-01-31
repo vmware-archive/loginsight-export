@@ -9,7 +9,7 @@ try:
     with open('loginsightexport/__version__.py') as f:
         exec(f.read(), version_namespace)
     packageversion = version_namespace['version']
-except (FileNotFoundError, KeyError):
+except (OSError, IOError, KeyError):
     packageversion = "0.dev0"
 
 

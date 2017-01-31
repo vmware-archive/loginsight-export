@@ -186,7 +186,7 @@ class BlockPIDLTokenCookies(cookielib.DefaultCookiePolicy):
         if '_pi_dl_token' in cookie.name:
             logger.debug("Ignoring {0}".format(cookie))
             return False
-        return super(BlockPIDLTokenCookies, self).set_ok(cookie, request)
+        return cookielib.DefaultCookiePolicy.set_ok(self, cookie, request)  # Use instead of super() for py27 compatability
 
 
 class Connection(object):

@@ -5,7 +5,15 @@ import logging
 import time
 import warnings
 import functools
-from urllib.parse import urlparse, parse_qs, urlencode
+
+try:
+    from urllib.parse import parse_qs, urlparse, urlencode
+except ImportError:
+    from urlparse import urlparse, parse_qs
+    from urllib import urlencode
+
+from loginsightexport.compat import parse_qs, urlunparse, urlparse, parse_qsl
+
 
 logger = logging.getLogger(__name__)
 

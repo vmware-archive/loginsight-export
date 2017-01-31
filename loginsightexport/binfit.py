@@ -1,9 +1,12 @@
-import logging
-from itertools import tee
-
 """
 Given a set of time ranges as aggregate counts, produce a best-fit set of windows.
 """
+
+import logging
+from itertools import tee
+if 'RecursionError' not in vars():
+    RecursionError = RuntimeError  # py27
+
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +110,7 @@ def split(bins, fetch_subset_fn, maximum=20000):
                 yield newbin
                 count_in_new_bins += newbin[2]
             if count_in_new_bins != b[2]:
-                raise RecursionError("The server expanded bin {v} to contain {i} items".format(b=v, i=count_in_new_bins))
+                raise RecursionError("The server expanded bin {b} to contain {i} items".format(b=b, i=count_in_new_bins))
         else:
             yield b
 
