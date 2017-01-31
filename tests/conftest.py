@@ -11,6 +11,19 @@ from mock_loginsight_server import MockedConnection
 from loginsightexport.uidriver import Connection, Credentials, TechPreviewWarning
 
 
+# VMware vRealize Log Insight Exporter
+# Copyright © 2017 VMware, Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# use this file except in compliance with the License. You may obtain a copy of
+# the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed
+# under the License is distributed on an “AS IS” BASIS, without warranties or
+# conditions of any kind, EITHER EXPRESS OR IMPLIED. See the License for the
+# specific language governing permissions and limitations under the License.
+
+
 usemockserver = True
 useliveserver = True
 useinternet = False
@@ -74,3 +87,45 @@ def pytest_generate_tests(metafunc):
 
 def identifiers_for_test_parameters(val):
     return str(val).replace(".", "_")
+
+
+def checkfile(fspath):
+    errors = []
+    body = fspath.read()
+
+    if 'Copyright © 2017 VMware, Inc' not in body:
+        errors.append("Missing Copyright")
+    if 'http://www.apache.org/licenses/LICENSE-2.0' not in body:
+        errors.append("Missing License")
+    return errors
+
+
+# ad-hoc pytest plugin based on http://doc.pytest.org/en/latest/example/nonpython.html
+class BoilerplateVerifyPlugin(object):
+    def pytest_collect_file(self, path, parent):
+        if path.ext == '.py':  # do not constrain path, all python source files should be marked
+            return BoilerplateVerifyItem(path, parent, None)
+
+
+class BoilerplateVerifyItem(pytest.Item, pytest.File):
+    def runtest(self):
+        errors = checkfile(self.fspath)
+        if errors:
+            raise BoilerplateVerifyError("\n".join(errors))
+
+    def repr_failure(self, excinfo):
+        if excinfo.errisinstance(BoilerplateVerifyError):
+            return excinfo.value.args[0]
+        return super(BoilerplateVerifyItem, self).repr_failure(excinfo)
+
+    def reportinfo(self):
+        return (self.fspath, -1, "Missing required declaration: %s" % self.fspath)
+
+
+class BoilerplateVerifyError(Exception):
+    """indicates an error during copyright/license checks. """
+
+
+def pytest_configure(config):
+    config.pluginmanager.register(BoilerplateVerifyPlugin())
+

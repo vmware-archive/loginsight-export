@@ -2,15 +2,21 @@ import logging
 import sys
 import collections
 import datetime
-import time
 import humanize
-import warnings
 
-try:
-    current_time = time.monotonic
-except:
-    current_time = time.time  # Reasonable fallback
-    warnings.warn("Using non-monotonic timesource, durations should be taken with a grain of salt")
+from .compat import current_time
+
+
+# Copyright © 2017 VMware, Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the “License”); you may not
+# use this file except in compliance with the License. You may obtain a copy of
+# the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed
+# under the License is distributed on an “AS IS” BASIS, without warranties or
+# conditions of any kind, EITHER EXPRESS OR IMPLIED. See the License for the
+# specific language governing permissions and limitations under the License.
 
 
 class ProgressRange(collections.Iterator):
