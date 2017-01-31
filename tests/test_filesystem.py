@@ -78,7 +78,7 @@ class TestExistingFileValidity(object):
         export = ExportBinToFile(root_query=None, bin=root_bin, output_directory=str(tmpdir), output_format='JSON', connection=None)
 
         with open(export.filename, "w") as f:
-            json.dump({"hasMoreResults": True, "to": 0-root_bin[2]}, fp=f)
+            json.dump({"hasMoreResults": True, "to": 0 - root_bin[2]}, fp=f)
 
         with pytest.raises(InconsistentFile):
             export.valid

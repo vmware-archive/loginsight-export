@@ -28,7 +28,7 @@ def map_dict_to_list(d, width):
     """
     assert(width >= 0)
     for startTimeMillis in d:
-        yield((int(startTimeMillis), int(startTimeMillis)+width, d[startTimeMillis]))
+        yield((int(startTimeMillis), int(startTimeMillis) + width, d[startTimeMillis]))
 
 
 def sorted_by_startTimeMillis(bins):

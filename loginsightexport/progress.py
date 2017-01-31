@@ -104,7 +104,6 @@ class ProgressBar(collections.Iterator):
         return self
 
     def __next__(self):
-        #_ = self._iterator.__next__()
         _ = next(self._iterator)
         self.update(1)
         return _

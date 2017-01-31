@@ -119,7 +119,7 @@ class BoilerplateVerifyItem(pytest.Item, pytest.File):
         return super(BoilerplateVerifyItem, self).repr_failure(excinfo)
 
     def reportinfo(self):
-        return (self.fspath, -1, "Missing required declaration: %s" % self.fspath)
+        return (self.fspath, -1, "Required declaration: %s" % self.fspath)
 
 
 class BoilerplateVerifyError(Exception):
@@ -128,4 +128,3 @@ class BoilerplateVerifyError(Exception):
 
 def pytest_configure(config):
     config.pluginmanager.register(BoilerplateVerifyPlugin())
-

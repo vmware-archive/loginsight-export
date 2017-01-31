@@ -31,12 +31,12 @@ mockserverlogger = logging.getLogger("LogInsightMockAdapter")
 class Database(object):
     """Generate a corpus of log messages 'event nnnnn'"""
     def __init__(self, start=1483154000000, end=1483568999999):
-        middle = (end+start)/2
+        middle = (end + start) / 2
         self.data = []
         for i in range(start, end, 500001):
-            self.data.append((i, "event %d" % (i-1483154000000)))
+            self.data.append((i, "event %d" % (i - 1483154000000)))
             if i > middle:
-                self.data.append((i+1, "event.1 %d" % (i - 1483154000000 - 1)))
+                self.data.append((i + 1, "event.1 %d" % (i - 1483154000000 - 1)))
 
     def results_in_range(self, start, end):
         for i, msg in self.data:
@@ -44,8 +44,8 @@ class Database(object):
                 yield (i, msg)
 
     def query_chart(self, start, end, buckets=3):
-        round_down_start = int(round(start/10000)*10000)
-        offset = int((end-round_down_start)/(buckets+1)/1000)*1000
+        round_down_start = int(round(start / 10000) * 10000)
+        offset = int((end - round_down_start) / (buckets + 1) / 1000) * 1000
 
         bins_starts = list(range(round_down_start, end, offset))
         bins_ends = list(range(round_down_start + offset - 1, end + offset - 1, offset))
@@ -100,8 +100,7 @@ class MockedUIQueryMixin(requests_mock.Adapter):
 
         assert 0 <= start <= end
 
-        rows = [
-                {'groupByValues': [{'isTime': True, 'val': 1483235882100, 'endVal': 1483235882199}], 'aggregationValues': [8653]},
+        rows = [{'groupByValues': [{'isTime': True, 'val': 1483235882100, 'endVal': 1483235882199}], 'aggregationValues': [8653]},
                 {'groupByValues': [{'isTime': True, 'val': 1483235882000, 'endVal': 1483235882099}], 'aggregationValues': [10939]},
                 {'groupByValues': [{'isTime': True, 'val': 1483235881900, 'endVal': 1483235881999}], 'aggregationValues': [6344]},
                 {'groupByValues': [{'isTime': True, 'val': 1483235881800, 'endVal': 1483235881899}], 'aggregationValues': [1848]},
@@ -113,8 +112,7 @@ class MockedUIQueryMixin(requests_mock.Adapter):
                 {'groupByValues': [{'isTime': True, 'val': 1483235881200, 'endVal': 1483235881299}], 'aggregationValues': [383]},
                 {'groupByValues': [{'isTime': True, 'val': 1483235881100, 'endVal': 1483235881199}], 'aggregationValues': [319]},
                 {'groupByValues': [{'isTime': True, 'val': 1483235881000, 'endVal': 1483235881099}], 'aggregationValues': [1410]},
-                {'groupByValues': [{'isTime': True, 'val': 1483235880900, 'endVal': 1483235880999}], 'aggregationValues': [182]}
-            ]
+                {'groupByValues': [{'isTime': True, 'val': 1483235880900, 'endVal': 1483235880999}], 'aggregationValues': [182]}]
 
         d = Database()
         rows = d.query_chart(start, end)

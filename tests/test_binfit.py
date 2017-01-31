@@ -106,8 +106,8 @@ def test_bin_splitting(bins, maximum, targetquantity, name):
 
     def fetch_subset_fn(bin, report_callback=False):
         del report_callback  # unused variable, only present for mocking
-        halfway_time = (bin[0] + bin[1])/2
-        halfway_value = bin[2]/2
+        halfway_time = (bin[0] + bin[1]) / 2
+        halfway_value = bin[2] / 2
         new_bins = [
             (bin[0], halfway_time, halfway_value),
             (halfway_time, bin[1], halfway_value)

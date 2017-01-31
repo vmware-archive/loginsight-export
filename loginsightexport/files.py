@@ -16,7 +16,6 @@ from .compat import FileNotFoundError
 # specific language governing permissions and limitations under the License.
 
 
-
 class InconsistentFile(OSError):
     """A file whose size is not consistent with expectations, or which is not parsable."""
     def __bool__(self):

@@ -249,8 +249,8 @@ class Connection(object):
             stream=stream,
             allow_redirects=False,
             headers={
-             'X-Requested-With': 'XMLHttpRequest',
-             'User-Agent': default_user_agent()
+                'X-Requested-With': 'XMLHttpRequest',
+                'User-Agent': default_user_agent()
             }
         )
         try:
@@ -370,7 +370,7 @@ class query(object):
         if response['cancelToken'] != cancelToken:  # Returned cancelToken should match the requested one.
             logger.warning("Request cancelToken {0} does not match returned cancelToken {1}".format(cancelToken, response['cancelToken']))
 
-        if 'cancelled' not in response or response['cancelled'] == False:
+        if 'cancelled' not in response or not response['cancelled']:
             logger.debug("Query did not auto-cancel, canceling...")
             self.cancel(response['cancelToken'])
         else:
