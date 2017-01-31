@@ -1,3 +1,5 @@
+from __future__ import division
+
 import requests_mock
 import json
 import logging
