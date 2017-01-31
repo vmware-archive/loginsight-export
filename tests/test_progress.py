@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from loginsightexport.progress import ProgressBar
 import time
 from datetime import timedelta

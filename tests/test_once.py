@@ -1,6 +1,6 @@
-import pytest
+# -*- coding: utf-8 -*-
+
 import warnings
-import logging
 
 from loginsightexport.paramhelper import once
 

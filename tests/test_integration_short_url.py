@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import pytest
 
 from loginsightexport.shorturl import MalformedShortUrlSlug, UnknownShortUrlSlug, unfurl_short_url

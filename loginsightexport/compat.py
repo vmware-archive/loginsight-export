@@ -1,4 +1,6 @@
-# Compatability imports
+# -*- coding: utf-8 -*-
+
+# Compatibility imports for different python versions
 
 # from .compat import parse_qs
 import time
@@ -20,12 +22,12 @@ import warnings
 try:
     # Python 3
     # noinspection PyCompatibility
-    from urllib.parse import parse_qs, urlunparse, urlparse, parse_qsl, urlencode
+    from urllib.parse import parse_qs, urlunparse, urlparse, parse_qsl, urlencode  # noqa
 except ImportError:
     # Python 2
     # noinspection PyCompatibility,PyUnresolvedReferences
-    from urlparse import parse_qs, urlunparse, urlparse, parse_qsl
-    from urllib import urlencode
+    from urlparse import parse_qs, urlunparse, urlparse, parse_qsl  # noqa
+    from urllib import urlencode  # noqa
 
 try:
     current_time = time.monotonic

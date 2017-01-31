@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import pytest
 
-from loginsightexport.compat import parse_qs, urlunparse, urlparse, parse_qsl
+from loginsightexport.compat import parse_qs, urlparse
 from loginsightexport.paramhelper import ExplorerUrlParse
 
 

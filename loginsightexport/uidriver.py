@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import logging
-from .compat import parse_qs, urlunparse, urlparse
+from .compat import urlunparse, urlparse
 from . import USERAGENT
 import requests
 import warnings

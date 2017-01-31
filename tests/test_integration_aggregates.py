@@ -1,10 +1,7 @@
-import pytest
+# -*- coding: utf-8 -*-
 
-from loginsightexport.shorturl import MalformedShortUrlSlug, UnknownShortUrlSlug, unfurl_short_url
 from loginsightexport.paramhelper import ExplorerUrlParse
 from loginsightexport.uidriver import AggregateQuery
-
-from loginsightexport.compat import parse_qs, urlunparse, urlparse, parse_qsl
 
 
 # VMware vRealize Log Insight Exporter

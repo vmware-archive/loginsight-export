@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import logging
-import sys
 import requests
 import pytest
 import warnings
-import requests_mock
 import socket
 from collections import namedtuple
 
@@ -97,6 +97,8 @@ def checkfile(fspath):
         errors.append("Missing Copyright")
     if 'http://www.apache.org/licenses/LICENSE-2.0' not in body:
         errors.append("Missing License")
+    if '# -*- coding: utf-8 -*-' not in body:
+        errors.append("Missing utf-8 format")
     return errors
 
 

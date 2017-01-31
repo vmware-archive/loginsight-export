@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # VMware vRealize Log Insight Exporter
 # Copyright © 2017 VMware, Inc. All Rights Reserved.
@@ -187,7 +188,7 @@ def main():
     parser, args = arguments()
     logger = setup_logger(args)
 
-    with ProgressBar([], quiet=True) as app:
+    with ProgressBar([], quiet=True):
         session = requests.Session()
 
         retries = Retry(total=20, backoff_factor=1, status_forcelist=[500, 502, 503, 504])  # Retry on server errors
@@ -260,7 +261,6 @@ def main():
             raise RuntimeError("BUG: Unsplit buckets still exceed maximum %d" % args.max)
         list(split(rendered_bins, assert_only, maximum=args.max))
 
-        total_bins = len(rendered_bins)
         if len(rendered_bins) == 0:
             parser.error("There appears to be no data in this query & time-range. Aborting.")
 
@@ -309,7 +309,7 @@ def main():
         except InconsistentFile as e:
             parser.exit(status=65, message="%s - Delete it and retry, or report a bug.\n" % str(e))
 
-        except FileExistsError as e:
+        except FileExistsError as e:  # this first appears in python 3.3
             parser.exit(status=74, message="Refusing to overwrite existing unparsable file {f!r}. Delete it and retry, or report a bug.\n".format(f=e.filename))
 
     success_msg = "Complete export: {i.current} bins downloaded {s[bytes]} bytes in {i.duration} ({s[skipped]} already present)".format(s=stats, i=iterable)
