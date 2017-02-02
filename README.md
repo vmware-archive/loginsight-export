@@ -13,11 +13,11 @@ A command-line exporter of log events in VMware vRealize Log Insight. Exceed the
 
 ## Overview
 
-## Try it out
+[VMware vRealize Log Insight](https://vmware.com/go/loginsight/docs) supports exporting query results to a file in the UI. However, a single export is limited to 20k results. To export more results, an operator can execute a sequence of queries with non-overlapping time-ranges, each of which contained less than 20k. As scale increases, this becomes cumbersome. This utility starts with a single UI-driven time-range, recursively breaks the full range down into sequential <=20k-sized chunks, and executes an export for each chunk.
 
-### Prerequisites
+## Prerequisites
 
-* Built on [Requests](http://python-requests.org/)
+* Built on [Requests](http://python-requests.org/).
 * Uses `tox`, `pytest`, `requests-mock` for testing.
 
 ## Contributing
