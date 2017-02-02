@@ -71,6 +71,8 @@ class ExportBinToFile(object):
     def download(self):
         export_chunk_url = self.root_query.messagesurl_export(altstart=self.bin[0], altend=self.bin[1], outputformat=self.output_format)
 
+        # TODO: py27: The e'x'clusive open isn't available in python2
+        # TODO: Coverage: This function isn't exercised by any tests
         with open(self.filename, 'xb') as f:  # write-exclusive binary -- fails if the file already exists
             bytes = 0
             r = self.connection.get(export_chunk_url, stream=True)
