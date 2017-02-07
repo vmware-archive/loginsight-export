@@ -44,25 +44,26 @@ def arguments():
     os.environ['COLUMNS'] = str(min([120, shutil.get_terminal_size().columns]))
 
     parser = argparse.ArgumentParser(
-        description="Export events from a VMware vRealize Log Insight server, write to local files",
-        usage='%(prog)s https://loginsight/s/e6jc6n',
-        epilog="asdf")
+        description="Export events from a VMware vRealize Log Insight server, write to local files.",
+        usage='%(prog)s https://loginsight.example.com/s/e6jc6n',
+    )
 
     parser.add_argument("url",
                         metavar='https://.../s/e6jc6n',
                         help="A short share URL, produced by the Log Insight UI.")
     parser.add_argument('-o', '--output',
-                        # ="output",
                         default=os.getcwd(),
                         metavar="DIR",
                         help="Write exported data to this directory. Defaults to current: %(default)s")
     accountgroup = parser.add_argument_group("Account")
     accountgroup.add_argument("--username", help="Login with this username."
                                                  "If unspecified, try to retrieve credentials from .netrc file or shell or prompt. "
-                                                 # "Active Directory accounts can be user, user@domain or DOMAIN\\user - "
-                                                 # "See https://kb.vmware.com/kb/2069086"
-                              )
-    accountgroup.add_argument("--provider", default="Local", choices=['local', 'ad'],
+                                                 "Active Directory accounts can be user, user@domain or DOMAIN\\user - "
+                                                 "See https://kb.vmware.com/kb/2069086"
+    )
+    accountgroup.add_argument("--provider",
+                              default="Local",
+                              choices=['local', 'ad'],
                               help="Username originates from this identity provider. Default: %(default)s")
     accountgroup.add_argument("--netrc",
                               default=os.path.join(os.environ['HOME'], ".netrc"),
@@ -82,7 +83,7 @@ def arguments():
     loggroup.add_argument("-v", "--verbose", action="count", default=0, dest="loglevel", help="Replace progressbar with logs. -vv writes PII (urls & queries) to stdout")
     loggroup.add_argument("--noprompt", action="store_false", default=True, dest="prompt", help="Don't prompt for anything interactively")
 
-    parser.add_argument("--nice", type=int, default=0, dest="delay", help="Be nice: delay seconds between chunk downloads.")
+    parser.add_argument("--nice", type=int, default=0, dest="delay", help="Be nice: wait %(metavar)s seconds between chunk downloads.")
     parser.add_argument("--max", type=int, default=2000, help="Largest quantity of messages to retrieve in a single bin [1-20k], default %(default)s")
     parser.add_argument("--raw", dest="format", action="store_const", default="JSON", const="RAW", help="Export in %(const)s format instead of the %(default)s default")
 
