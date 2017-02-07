@@ -36,7 +36,9 @@ except:
     warnings.warn("Using non-monotonic timesource, durations should be taken with a grain of salt")
 
 if not hasattr(__builtins__, 'FileNotFoundError'):
-    FileNotFoundError = IOError  # py27
+    class FileNotFoundError(IOError):
+        """FileNotFoundError exception compatible with py27"""
 
 if not hasattr(__builtins__, 'RecursionError'):
-    RecursionError = RuntimeError  # py27
+    class RecursionError(RuntimeError):
+        """RecursionError exception compatible with py27"""
