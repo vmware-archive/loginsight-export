@@ -21,7 +21,7 @@ from .compat import current_time
 # specific language governing permissions and limitations under the License.
 
 
-class ProgressRange(collections.Iterator):
+class ProgressRange(object):
     logger = logging.getLogger(__name__)
 
     def __init__(self, bins=[(0, 0, 0)], prelude="Planning", suffix="requests", columns=100):
