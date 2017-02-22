@@ -10,3 +10,4 @@ export
 *.egg-info
 __pycache__
 CREDENTIALS.py
+*.pem
