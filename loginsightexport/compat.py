@@ -38,7 +38,7 @@ except:
     warnings.warn("Using non-monotonic timesource, durations should be taken with a grain of salt")
 
 if not hasattr(__builtins__, 'FileNotFoundError'):
-    FileNotFoundError = OSError
+    FileNotFoundError = IOError
 
 if not hasattr(__builtins__, 'RecursionError'):
     class RecursionError(RuntimeError):
