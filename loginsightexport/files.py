@@ -35,6 +35,7 @@ class ExportBinToFile(object):
         self.logger = logging.getLogger(self.__class__.__name__).getChild("time[{b[0]}-{b[1]}].events[{b[2]}].file[{filename!r}]".format(b=bin, filename=self.filename))
         self.connection = connection
         self.output_format = output_format
+        self.body = None
 
     @property
     def valid(self):
@@ -60,7 +61,6 @@ class ExportBinToFile(object):
                         raise InconsistentFile(0, "Incorrect quantity of events, should be {b[2]}".format(self.bin), self.filename)
                 else:
                     raise ValueError("Unknown output format {0}".format(self.output_format))
-            return True
         except InconsistentFile as e:
             self.logger.info(e)
             raise
