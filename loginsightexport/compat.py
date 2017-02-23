@@ -2,7 +2,6 @@
 
 # Compatibility imports for different python versions
 
-# from .compat import parse_qs
 import time
 import warnings
 
@@ -33,7 +32,7 @@ except ImportError:
 
 try:
     current_time = time.monotonic
-except:
+except AttributeError:
     current_time = time.time  # Reasonable fallback
     warnings.warn("Using non-monotonic timesource, durations should be taken with a grain of salt")
 
