@@ -31,7 +31,7 @@ requires = ['requests', 'humanize']
 setup(
     name="loginsightexport",
     version=packageversion,
-    url='http://github.com/vmware/pyloginsight/export/',
+    url='http://github.com/vmware/loginsight-export/',
     license='Apache Software License 2.0',
     author='Alan Castonguay',
     install_requires=requires,
