@@ -10,6 +10,7 @@ A command-line exporter of log events in VMware vRealize Log Insight. Exceed the
 ## Usage
 1. In Log Insight Interactive Analytics, perform a query of arbitrary complexity and size.
 2. Use the ![](exportshare.png) Share button to generate a short url for the current query.
+3. `loginsight-export https://loginsight.example.com/s/123456`
 
 ## Overview
 
