@@ -19,6 +19,8 @@ import warnings
 # conditions of any kind, EITHER EXPRESS OR IMPLIED. See the License for the
 # specific language governing permissions and limitations under the License.
 
+# TODO: This could be replaced by https://pythonhosted.org/six/#module-six.moves.urllib.parse
+
 try:
     # Python 3
     # noinspection PyCompatibility
@@ -36,8 +38,7 @@ except:
     warnings.warn("Using non-monotonic timesource, durations should be taken with a grain of salt")
 
 if not hasattr(__builtins__, 'FileNotFoundError'):
-    class FileNotFoundError(IOError):
-        """FileNotFoundError exception compatible with py27"""
+    FileNotFoundError = OSError
 
 if not hasattr(__builtins__, 'RecursionError'):
     class RecursionError(RuntimeError):

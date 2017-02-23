@@ -59,8 +59,7 @@ def arguments():
     accountgroup.add_argument("--username", help="Login with this username."
                                                  "If unspecified, try to retrieve credentials from .netrc file or shell or prompt. "
                                                  "Active Directory accounts can be user, user@domain or DOMAIN\\user - "
-                                                 "See https://kb.vmware.com/kb/2069086"
-    )
+                                                 "See https://kb.vmware.com/kb/2069086")
     accountgroup.add_argument("--provider",
                               default="Local",
                               choices=['local', 'ad'],
@@ -310,7 +309,7 @@ def main():
         except InconsistentFile as e:
             parser.exit(status=65, message="%s - Delete it and retry, or report a bug.\n" % str(e))
 
-        except FileExistsError as e:  # this first appears in python 3.3
+        except FileExistsError as e:
             parser.exit(status=74, message="Refusing to overwrite existing unparsable file {f!r}. Delete it and retry, or report a bug.\n".format(f=e.filename))
 
     success_msg = "Complete export: {i.current} bins downloaded {s[bytes]} bytes in {i.duration} ({s[skipped]} already present)".format(s=stats, i=iterable)
