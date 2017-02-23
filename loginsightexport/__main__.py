@@ -255,7 +255,7 @@ def main():
             ))
 
         # Sanity check the proposed query plan
-        # Bins are not evenly time-sized. Contigous bins under the maximum value-size limit have been merged.
+        # Bins are not evenly time-sized. Contiguous bins under the maximum value-size limit have been merged.
         # [-999-][--900--] [80]  [1]  [-5-] [-900---]
         def assert_only(bin):
             raise RuntimeError("BUG: Unsplit buckets still exceed maximum %d" % args.max)
@@ -264,7 +264,7 @@ def main():
         if len(rendered_bins) == 0:
             parser.error("There appears to be no data in this query & time-range. Aborting.")
 
-        # Sanity check output directory for filename collsions
+        # Sanity check output directory for filename collisions
         PREFIX = "output."
         expected_files = [PREFIX + "%s" % b[0] for b in rendered_bins]
         extra_files = [f for f in os.listdir(args.output) if f.startswith(PREFIX) and f not in expected_files]
