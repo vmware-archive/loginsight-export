@@ -42,13 +42,14 @@ setup(
     packages=find_packages(),
     platforms='any',
     classifiers=[
-        'Programming Language :: Python',
-        'Development Status :: 1 - Planning',
+        'Programming Language :: Python :: 3 :: Only',
+        'Development Status :: 4 - Beta',
         'Natural Language :: English',
-        'Intended Audience :: Developers',
+        'Intended Audience :: Information Technology',
+        'Intended Audience :: System Administrators',
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: System :: Logging',
     ],
     entry_points={
         'console_scripts': [
