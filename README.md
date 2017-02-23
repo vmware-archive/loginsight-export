@@ -18,6 +18,7 @@ A command-line exporter of log events in VMware vRealize Log Insight. Exceed the
 ## Prerequisites
 
 * Built on [Requests](http://python-requests.org/).
+* Python 3.4 or higher.
 * Uses `tox`, `pytest`, `requests-mock` for testing.
 
 ## Contributing
