@@ -24,6 +24,10 @@ from itertools import tee
 logger = logging.getLogger(__name__)
 
 
+class IndivisibleBin(RuntimeError):
+    """The bin cannot be subdivided further, and thus cannot be exported. Increase the bin size."""
+
+
 def map_dict_to_list(d, width):
     """
     Given a dictionary -> {start: quantity, start: quantity, ...}
@@ -116,14 +120,14 @@ def split(bins, fetch_subset_fn, maximum=20000):
             newbins = fetch_subset_fn(b)
             if [b] == newbins:
                 if b[0] == b[1]:
-                    raise RecursionError("This bin {b} is 0ms long, so the server won't subdivide it any further, but there's more than {max} items in it. Use a larger --max".format(b=b, max=maximum))
-                raise RecursionError("The server won't subdivide the bin {b} any further, but there's more than {max} items in it. Please report this as a bug.".format(b=b, max=maximum))
+                    raise IndivisibleBin("This bin {b} is 0ms long, so the server won't subdivide it any further, but there's more than {max} items in it. Use a larger --max".format(b=b, max=maximum))
+                raise IndivisibleBin("The server won't subdivide the bin {b} any further, but there's more than {max} items in it. Please report this as a bug.".format(b=b, max=maximum))
             count_in_new_bins = 0
             for newbin in split(newbins, fetch_subset_fn, maximum):
                 yield newbin
                 count_in_new_bins += newbin[2]
             if count_in_new_bins != b[2]:
-                raise RecursionError("The server expanded bin {b} to contain {i} items".format(b=b, i=count_in_new_bins))
+                raise IndivisibleBin("The server expanded bin {b} to contain {i} items".format(b=b, i=count_in_new_bins))
         else:
             yield b
 
@@ -135,7 +139,7 @@ def asplit(bins, splitfn, maximum=20000):
             logger.debug("This bin %s is larger than the maximum, split it apart" % str(b))
             newbins = splitfn(b, splitfn, maximum=maximum)
             if bins == newbins:
-                raise RecursionError("{0} -> {1} is not splitting bins: {2}".format(__name__, splitfn, bins))
+                raise IndivisibleBin("{0} -> {1} is not splitting bins: {2}".format(__name__, splitfn, bins))
             for newbin in split(newbins, splitfn, maximum):
                 r.append(newbin)
         else:
