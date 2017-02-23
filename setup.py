@@ -29,7 +29,7 @@ except (OSError, IOError, KeyError):
 requires = ['requests', 'humanize']
 
 setup(
-    name="loginsightexport",
+    name="loginsight-export",
     version=packageversion,
     url='http://github.com/vmware/loginsight-export/',
     license='Apache Software License 2.0',
@@ -53,7 +53,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'loginsightexport = loginsightexport.__main__:main'
+            'loginsight-export = loginsightexport.__main__:main'
         ]
     }
 )
