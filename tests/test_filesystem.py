@@ -4,7 +4,7 @@ import os.path
 import json
 import pytest
 
-from loginsightexport.files import ExportBinToFile, InconsistentFile, FileNotFoundError
+from loginsightexport.files import ExportBinToFile, InconsistentFile
 
 
 # VMware vRealize Log Insight Exporter

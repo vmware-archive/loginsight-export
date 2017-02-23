@@ -42,3 +42,6 @@ if not hasattr(__builtins__, 'FileNotFoundError'):
 if not hasattr(__builtins__, 'RecursionError'):
     class RecursionError(RuntimeError):
         """RecursionError exception compatible with py27"""
+
+
+raise ImportError("Reasons")

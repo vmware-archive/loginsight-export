@@ -5,8 +5,7 @@ import sys
 import collections
 import datetime
 import humanize
-
-from .compat import current_time
+import time
 
 
 # Copyright © 2017 VMware, Inc. All Rights Reserved.
@@ -31,7 +30,7 @@ class ProgressRange(object):
         self.updates = 0
         self.start(bins)
         self.longest_line = 0
-        self.started_at = current_time()
+        self.started_at = time.monotonic()
         self.duration = 0
 
     def start(self, bins):
@@ -43,7 +42,7 @@ class ProgressRange(object):
         return self
 
     def update(self, bins, increment=1):
-        self.duration = datetime.timedelta(seconds=current_time() - self.started_at)
+        self.duration = datetime.timedelta(seconds=time.monotonic() - self.started_at)
         self.updates += increment
         start = min([x[0] for x in bins])
         endin = max([x[1] for x in bins])
@@ -96,7 +95,7 @@ class ProgressBar(collections.Iterator):
         self.quiet = quiet
         self.log = log
         self.stats = collections.Counter()
-        self.started_at = current_time()
+        self.started_at = time.monotonic()
         self.duration = 0
 
     def __enter__(self):
@@ -113,7 +112,7 @@ class ProgressBar(collections.Iterator):
     next = __next__
 
     def update(self, increment=1):
-        self.duration = datetime.timedelta(seconds=current_time() - self.started_at)
+        self.duration = datetime.timedelta(seconds=time.monotonic() - self.started_at)
         self.current += increment
         try:
             percent = 100 * (self.current / float(self.total))

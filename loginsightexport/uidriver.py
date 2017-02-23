@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from .compat import urlunparse, urlparse
+from urllib.parse import urlunparse, urlparse
 from . import USERAGENT
 import requests
 import warnings

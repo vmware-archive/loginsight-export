@@ -4,7 +4,7 @@ import json
 import logging
 import time
 
-from loginsightexport.compat import parse_qsl
+from urllib.parse import parse_qsl
 from .utils import RandomDict, requiresauthentication, User, Session
 
 
