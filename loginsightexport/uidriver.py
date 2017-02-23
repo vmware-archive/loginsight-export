@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from .compat import urlunparse, urlparse
+from urllib.parse import urlunparse, urlparse
 from . import USERAGENT
 import requests
 import warnings
@@ -198,7 +198,7 @@ class BlockPIDLTokenCookies(cookielib.DefaultCookiePolicy):
         if '_pi_dl_token' in cookie.name:
             logger.debug("Ignoring {0}".format(cookie))
             return False
-        return cookielib.DefaultCookiePolicy.set_ok(self, cookie, request)  # Use instead of super() for py27 compatability
+        return cookielib.DefaultCookiePolicy.set_ok(self, cookie, request)
 
 
 class Connection(object):

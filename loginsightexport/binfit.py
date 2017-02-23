@@ -7,7 +7,6 @@ Given a set of time ranges as aggregate counts, produce a best-fit set of window
 import logging
 from itertools import tee
 
-from .compat import RecursionError
 
 # VMware vRealize Log Insight Exporter
 # Copyright © 2017 VMware, Inc. All Rights Reserved.

@@ -4,8 +4,6 @@ import json
 import logging
 import os
 
-from .compat import FileNotFoundError
-
 # Copyright © 2017 VMware, Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the “License”); you may not

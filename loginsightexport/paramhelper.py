@@ -6,7 +6,7 @@ import time
 import warnings
 import functools
 
-from .compat import parse_qs, urlparse, urlencode
+from urllib.parse import parse_qs, urlparse, urlencode
 
 
 # VMware vRealize Log Insight Exporter

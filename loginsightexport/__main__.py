@@ -24,6 +24,7 @@ import sys
 import warnings
 from datetime import datetime
 from getpass import getpass, getuser
+from urllib.parse import urlparse
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -31,12 +32,11 @@ from requests.packages.urllib3.util.retry import Retry
 from requests.structures import CaseInsensitiveDict
 
 from loginsightexport.binfit import merge, patch_bins_at_boundaries, split, sorted_by_startTimeMillis
-from loginsightexport.compat import urlparse
 from loginsightexport.paramhelper import ExplorerUrlParse, SeenWarning
 from loginsightexport.progress import ProgressRange, ProgressBar
 from loginsightexport.shorturl import unfurl_short_url
 from loginsightexport.uidriver import Connection, Credentials, AggregateQuery, TechPreviewWarning
-from loginsightexport.files import ExportBinToFile, InconsistentFile, FileNotFoundError
+from loginsightexport.files import ExportBinToFile, InconsistentFile
 
 
 def arguments():

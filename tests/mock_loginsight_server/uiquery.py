@@ -61,7 +61,7 @@ class Database(object):
         iterable = self.results_in_range(start, end)
 
         def key_fn(args):
-            x, y = args[0], args[1]
+            x, _ = args[0], args[1]
             return min([_ for _ in result_bins.keys() if _ >= x])
 
         for k, g in groupby(iterable, key=key_fn):
