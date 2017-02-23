@@ -130,18 +130,3 @@ def split(bins, fetch_subset_fn, maximum=20000):
                 raise IndivisibleBin("The server expanded bin {b} to contain {i} items".format(b=b, i=count_in_new_bins))
         else:
             yield b
-
-
-def asplit(bins, splitfn, maximum=20000):
-    r = []
-    for b in bins:
-        if b[2] > maximum:
-            logger.debug("This bin %s is larger than the maximum, split it apart" % str(b))
-            newbins = splitfn(b, splitfn, maximum=maximum)
-            if bins == newbins:
-                raise IndivisibleBin("{0} -> {1} is not splitting bins: {2}".format(__name__, splitfn, bins))
-            for newbin in split(newbins, splitfn, maximum):
-                r.append(newbin)
-        else:
-            r.append(b)
-    return r
