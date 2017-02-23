@@ -188,7 +188,7 @@ def main():
     parser, args = arguments()
     logger = setup_logger(args)
 
-    with ProgressBar([], quiet=True):
+    with ProgressBar([], quiet=True) as overall_progress:
         session = requests.Session()
 
         retries = Retry(total=20, backoff_factor=1, status_forcelist=[500, 502, 503, 504])  # Retry on server errors
@@ -312,7 +312,7 @@ def main():
         except FileExistsError as e:
             parser.exit(status=74, message="Refusing to overwrite existing unparsable file {f!r}. Delete it and retry, or report a bug.\n".format(f=e.filename))
 
-    success_msg = "Complete export: {i.current} bins downloaded {s[bytes]} bytes in {i.duration} ({s[skipped]} already present)".format(s=stats, i=iterable)
+    success_msg = "Complete export: {i.current} bins downloaded {s[bytes]} bytes in {i.duration} ({s[skipped]} already present)".format(s=stats, i=overall_progress)
     ui.log(success_msg)
     if logger.isEnabledFor(logging.WARNING) and not logger.isEnabledFor(logging.INFO):
         parser.exit(status=0, message="%s\n" % success_msg)
