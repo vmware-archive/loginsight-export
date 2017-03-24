@@ -65,7 +65,7 @@ def arguments():
                               choices=['local', 'ad'],
                               help="Username originates from this identity provider. Default: %(default)s")
     accountgroup.add_argument("--netrc",
-                              default=os.path.join(os.environ['HOME'], ".netrc"),
+                              default=os.path.join(os.path.expanduser("~"), ".netrc"),
                               help="Alternate .netrc configuration file with credentials in the format "
                                    "`machine li.example.com login Charlie password SuperSecr3t! account Local`")
 
