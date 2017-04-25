@@ -212,8 +212,7 @@ def main():
             print("Failed to connect to remote server: {0}".format(e))
             parser.exit()
 
-        version = ui.get("/api/v1/version").json()['version']
-        logger.info("Connected to {0} running Log Insight {1}".format(args.hostname, version))
+        logger.info("Connected to {0}".format(args.hostname))
         ui.log("Connected")
 
         # If we got a short url, expand it to a long /explorer? one
