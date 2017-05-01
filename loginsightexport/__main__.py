@@ -95,6 +95,9 @@ def arguments():
     args.port = remote.port if remote.port else 443
     args.password = None
 
+    if args.hostname is None:
+        parser.error("Invalid url.")
+
     if args.save:
         pem = requests.packages.urllib3.util.ssl_.ssl.get_server_certificate((args.hostname, args.port))
         with open(args.save, 'x') as f:
@@ -110,13 +113,12 @@ def arguments():
         args.username = remote.username
 
     if args.username is None:
-        n = netrc.netrc(args.netrc)
-        netrcline = n.authenticators(args.hostname)
         try:
+            n = netrc.netrc(args.netrc)
+            netrcline = n.authenticators(args.hostname)
             (args.username, args.provider, args.password) = netrcline
-        except TypeError:
-            pass  # Cannot parse netrc line (netrcline=None)
-        del n
+        except:
+            pass  # Cannot parse netrc line (netrcline=None, or FileNotFoundError)
 
     if args.username is None and args.prompt:
         args.username = getuser()
