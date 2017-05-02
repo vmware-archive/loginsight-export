@@ -22,6 +22,16 @@ A command-line exporter of log events in VMware vRealize Log Insight. Exceed the
 * Python 3.4 or higher.
 * Uses `tox`, `pytest`, `requests-mock` for testing.
 
+## Secure Connections
+
+The exporter verifies a remote server's certificate against your CA trust chain by default. If Log Insight is using a valid certificate that's not trusted by your local machine (e.g., self-signed), use the `--save` command-line argument to write a local PEM file and `--verify` to trust it. The certificate's integrity is still verified.
+
+If Log Insight is using the auto-generated certificate with a common name that doens't match Log Insight's hostname, the request will fail:
+```
+loginsightexport: error: The remote SSL certificate isn't trusted: hostname '192.168.3.30' doesn't match 'VMware vCenter Log Insight'
+```
+It's always recommended to use real certificates. To bypass this check in a test environment, use the `--insecure` command-line argument.
+
 ## Contributing
 
 The loginsight-export project team welcomes contributions from the community. If you wish to contribute code and you have not
