@@ -56,7 +56,7 @@ class ExportBinToFile(object):
                     # TODO: Find a reasonable way to check file validity. Note that multi-line messages are present.
                     found_quantity = sum(1 for line in open(self.filename, 'rb'))
                     if self.bin[2] > found_quantity:
-                        raise InconsistentFile(0, "Incorrect quantity of events, should be {b[2]}".format(self.bin), self.filename)
+                        raise InconsistentFile(0, "Incorrect quantity of events, should be {b[2]}".format(b=self.bin), self.filename)
                 else:
                     raise ValueError("Unknown output format {0}".format(self.output_format))
         except InconsistentFile as e:
