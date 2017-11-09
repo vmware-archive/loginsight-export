@@ -209,13 +209,23 @@ class ExplorerUrlParse(object):
                 elif isinstance(s, list):
                     logger.debug("Mapping list-of-dict item %s = %s" % (_, str(s)))
 
-                    if _ in ["fieldConstraints", "extractedFields", "groupByFields"]:
+                    if _ in ["fieldConstraints", "extractedFields"]:
                         counter = 0
                         for listitem in s:
                             for fieldConstraintsDictKey in listitem:
                                 params['paramsHelper.%s[%d].%s' % (insertedkey, counter, fieldConstraintsDictKey)] = \
                                     listitem[fieldConstraintsDictKey]
                             counter += 1
+
+                    elif _ in ["groupByFields"]:
+                        logger.info("Ignoring group-by fields in chart query: %s" % s)
+
+                    elif insertedkey in ['funcGroups']:
+                        for listitem in s:
+                            if 'functions' in listitem.keys():
+                                logger.info("Ignoring group-by functions in chart query: %s" % listitem)
+                        params['paramsHelper.funcGroups[0].piqlFunctions[0]'] = 'COUNT'
+
                     else:
                         counter = 0
                         for listitem in s:

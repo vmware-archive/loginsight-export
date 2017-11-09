@@ -394,8 +394,10 @@ class AggregateQuery(object):
 
         self.elapsed = r.elapsed
 
+        if len(body['groupByHeaders']) == 0:
+            raise RuntimeError("This query produced zero groupings. Set the query to group by time only.")
         if len(body['groupByHeaders']) != 1:
-            raise RuntimeError("This query produced multiple groupings. Set the query to group by time only.")
+            raise RuntimeError("This query produced multiple groupings (%s). Set the query to group by time only." % body['groupByHeaders'])
         if not body['groupByHeaders'][0]['isTime']:
             raise RuntimeError("This query is grouped by something other than time. Set the query to group by time only.")
 
