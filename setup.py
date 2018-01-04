@@ -53,7 +53,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'loginsight-export = loginsightexport.__main__:main'
+            'loginsight-export = loginsightexport.__main__:main',
+            'loginsight-export-convert-json = loginsightexport.convert:main'
         ]
     }
 )
