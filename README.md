@@ -1,3 +1,6 @@
+
+# VMware has ended active development of this project, this repository will no longer be updated.
+
 A command-line exporter of log events in VMware vRealize Log Insight. Exceed the 20k UI limit. Write local files.
 
 # loginsight-export
